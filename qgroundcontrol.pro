@@ -426,11 +426,11 @@ contains (DEFINES, QGC_ENABLE_PAIRING) {
 
 HEADERS += \
     src/QmlControls/QmlUnitsConversion.h \
+    src/Vehicle/VehicleEscStatusFactGroup.h \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \
     src/api/QmlComponentInfo.h \
-    src/comm/MavlinkMessagesTimer.h \
     src/GPS/Drivers/src/base_station.h \
 
 contains (DEFINES, QGC_ENABLE_PAIRING) {
@@ -439,11 +439,11 @@ contains (DEFINES, QGC_ENABLE_PAIRING) {
 }
 
 SOURCES += \
+    src/Vehicle/VehicleEscStatusFactGroup.cc \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \
     src/api/QmlComponentInfo.cc \
-    src/comm/MavlinkMessagesTimer.cc \
 
 contains (DEFINES, QGC_ENABLE_PAIRING) {
     SOURCES += \
@@ -470,6 +470,7 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         src/MissionManager/CameraSectionTest.h \
         src/MissionManager/CorridorScanComplexItemTest.h \
         src/MissionManager/FWLandingPatternTest.h \
+        src/MissionManager/LandingComplexItemTest.h \
         src/MissionManager/MissionCommandTreeEditorTest.h \
         src/MissionManager/MissionCommandTreeTest.h \
         src/MissionManager/MissionControllerManagerTest.h \
@@ -489,17 +490,15 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         src/MissionManager/TransectStyleComplexItemTestBase.h \
         src/MissionManager/VisualMissionItemTest.h \
         src/qgcunittest/GeoTest.h \
-        src/qgcunittest/LinkManagerTest.h \
         src/qgcunittest/MavlinkLogTest.h \
         src/qgcunittest/MultiSignalSpy.h \
-        src/qgcunittest/TCPLinkTest.h \
-        src/qgcunittest/TCPLoopBackServer.h \
+        src/qgcunittest/MultiSignalSpyV2.h \
         src/qgcunittest/UnitTest.h \
         src/Vehicle/FTPManagerTest.h \
-        src/Vehicle/InitialConnectTest.h \
         src/Vehicle/RequestMessageTest.h \
         src/Vehicle/SendMavCommandWithHandlerTest.h \
         src/Vehicle/SendMavCommandWithSignallingTest.h \
+        src/Vehicle/VehicleLinkManagerTest.h \
         #src/qgcunittest/RadioConfigTest.h \
         #src/AnalyzeView/LogDownloadTest.h \
         #src/qgcunittest/FileDialogTest.h \
@@ -517,6 +516,7 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         src/MissionManager/CameraSectionTest.cc \
         src/MissionManager/CorridorScanComplexItemTest.cc \
         src/MissionManager/FWLandingPatternTest.cc \
+        src/MissionManager/LandingComplexItemTest.cc \
         src/MissionManager/MissionCommandTreeEditorTest.cc \
         src/MissionManager/MissionCommandTreeTest.cc \
         src/MissionManager/MissionControllerManagerTest.cc \
@@ -536,18 +536,16 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         src/MissionManager/TransectStyleComplexItemTestBase.cc \
         src/MissionManager/VisualMissionItemTest.cc \
         src/qgcunittest/GeoTest.cc \
-        src/qgcunittest/LinkManagerTest.cc \
         src/qgcunittest/MavlinkLogTest.cc \
         src/qgcunittest/MultiSignalSpy.cc \
-        src/qgcunittest/TCPLinkTest.cc \
-        src/qgcunittest/TCPLoopBackServer.cc \
+        src/qgcunittest/MultiSignalSpyV2.cc \
         src/qgcunittest/UnitTest.cc \
         src/qgcunittest/UnitTestList.cc \
         src/Vehicle/FTPManagerTest.cc \
-        src/Vehicle/InitialConnectTest.cc \
         src/Vehicle/RequestMessageTest.cc \
         src/Vehicle/SendMavCommandWithHandlerTest.cc \
         src/Vehicle/SendMavCommandWithSignallingTest.cc \
+        src/Vehicle/VehicleLinkManagerTest.cc \
         #src/qgcunittest/RadioConfigTest.cc \
         #src/AnalyzeView/LogDownloadTest.cc \
         #src/qgcunittest/FileDialogTest.cc \
@@ -701,6 +699,7 @@ HEADERS += \
     src/Vehicle/VehicleDistanceSensorFactGroup.h \
     src/Vehicle/VehicleEstimatorStatusFactGroup.h \
     src/Vehicle/VehicleGPSFactGroup.h \
+    src/Vehicle/VehicleLinkManager.h \
     src/Vehicle/VehicleSetpointFactGroup.h \
     src/Vehicle/VehicleTemperatureFactGroup.h \
     src/Vehicle/VehicleVibrationFactGroup.h \
@@ -929,6 +928,7 @@ SOURCES += \
     src/Vehicle/VehicleDistanceSensorFactGroup.cc \
     src/Vehicle/VehicleEstimatorStatusFactGroup.cc \
     src/Vehicle/VehicleGPSFactGroup.cc \
+    src/Vehicle/VehicleLinkManager.cc \
     src/Vehicle/VehicleSetpointFactGroup.cc \
     src/Vehicle/VehicleTemperatureFactGroup.cc \
     src/Vehicle/VehicleVibrationFactGroup.cc \
@@ -1411,7 +1411,7 @@ AndroidBuild {
 # Localization
 #
 
-TRANSLATIONS += $$files($$PWD/localization/qgc_*.ts)
+TRANSLATIONS += $$files($$PWD/translations/qgc_*.ts)
 CONFIG+=lrelease embed_translations
 
 #-------------------------------------------------------------------------------------

@@ -31,6 +31,7 @@ linux {
             message("Linux clang")
             QMAKE_CXXFLAGS += -Qunused-arguments -fcolor-diagnostics
         } else {
+            #QMAKE_CXXFLAGS += -H # Handy for debugging why something is getting built when an include file is touched
             QMAKE_CXXFLAGS_WARN_ON += -Werror \
                 -Wno-deprecated-copy \      # These come from mavlink headers
                 -Wno-unused-parameter \     # gst_plugins-good has these errors
@@ -113,8 +114,6 @@ linux {
         } else {
                 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
         }
-        #-- Not forcing anything. Let qmake find the latest, installed SDK.
-        QMAKE_MAC_SDK = macosx10.15
         QMAKE_CXXFLAGS += -fvisibility=hidden
         QMAKE_CXXFLAGS_WARN_ON += -Werror \
             -Wno-unused-parameter           # gst-plugins-good
